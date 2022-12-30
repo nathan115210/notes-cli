@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeNote = exports.addNote = exports.listNotes = void 0;
+exports.removeNote = exports.readNote = exports.addNote = exports.listNotes = void 0;
 const fs = require("fs");
 const chalk = require("chalk");
 const loadNotes = () => {
@@ -12,13 +12,16 @@ const loadNotes = () => {
         return [];
     }
 };
+const notes = loadNotes();
 const saveNotes = (notes) => {
     fs.writeFileSync("notes.json", JSON.stringify(notes));
 };
 const listNotes = () => {
-    const notes = loadNotes();
     if (notes.length) {
-        console.log(...notes);
+        console.log(chalk.inverse("Your notes"));
+        notes.forEach((note) => {
+            console.log(note.title);
+        });
     }
     else {
         console.log("No notes");
@@ -26,10 +29,8 @@ const listNotes = () => {
 };
 exports.listNotes = listNotes;
 const addNote = ({ title, body }) => {
-    console.log("hhh");
-    const notes = loadNotes();
-    const duplicatedNotes = notes.filter((note) => note.title === title);
-    if (duplicatedNotes.length === 0) {
+    const duplicateNote = notes.find((item) => item.title === title) || undefined;
+    if (!duplicateNote) {
         notes.push({
             title,
             body,
@@ -42,8 +43,18 @@ const addNote = ({ title, body }) => {
     }
 };
 exports.addNote = addNote;
+const readNote = (title) => {
+    const targetNote = notes.find((item) => (item === null || item === void 0 ? void 0 : item.title) && item.title === title) || undefined;
+    if (targetNote) {
+        console.log(chalk.inverse("Title:" + targetNote.title));
+        console.log("Body:" + targetNote.body);
+    }
+    else {
+        console.log(chalk.red.inverse(`No Note with ${title} has found`));
+    }
+};
+exports.readNote = readNote;
 const removeNote = (targetTitle) => {
-    const notes = loadNotes();
     const updatedNotes = notes.filter((note) => note.title !== targetTitle);
     if (notes.length > updatedNotes.length) {
         saveNotes(updatedNotes);
@@ -54,3 +65,37 @@ const removeNote = (targetTitle) => {
     }
 };
 exports.removeNote = removeNote;
+/*
+//TODO: ASK - START
+
+interface Task {
+  text: string;
+  completed: boolean;
+}
+
+const tasks: { tasks: Task[]; getTasksToDo: () => string[] } = {
+  tasks: [
+    {
+      text: "Grocery shopping",
+      completed: true,
+    },
+    {
+      text: "Clean yard",
+      completed: false,
+    },
+    {
+      text: "Film course",
+      completed: false,
+    },
+  ],
+  getTasksToDo() {
+    const todoTasks = this.tasks.filter((task) => !task.completed);
+    return todoTasks.length
+      ? todoTasks.forEach((item) => item.text) // ??: Problem: this return undefined. bt console works... why?
+      : "No To-Do task";
+  },
+};
+
+console.log(tasks.getTasksToDo());
+//TODO: ASK - END
+*/

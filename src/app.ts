@@ -1,7 +1,7 @@
 import { ArgumentsCamelCase } from "yargs";
 
 const yargs = require("yargs");
-import { addNote, listNotes, removeNote } from "./utils/notes";
+import { addNote, listNotes, removeNote, readNote } from "./utils/notes";
 import { Note } from "./utils/types";
 
 //Customize yargs version. Default[from yargs] is 1.0.0
@@ -42,7 +42,7 @@ yargs.command({
   },
   handler: (argv: ArgumentsCamelCase<string>) => {
     const { title } = argv;
-    removeNote(title);
+    removeNote(title as string);
   },
 });
 
@@ -50,14 +50,16 @@ yargs.command({
 yargs.command({
   command: "read",
   describe: "Read a note",
-  /*builder: {
-      title: {
-        describe: "Note title",
-        demandOption,
-      },
-    },*/
-  handler: () => {
-    console.log("Read");
+  builder: {
+    title: {
+      describe: "Note title",
+      demandOption: true,
+      type: "string",
+    },
+  },
+  handler: (argv: ArgumentsCamelCase<string>) => {
+    const { title } = argv;
+    readNote(title as string);
   },
 });
 

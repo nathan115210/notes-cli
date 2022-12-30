@@ -45,15 +45,17 @@ yargs.command({
 yargs.command({
     command: "read",
     describe: "Read a note",
-    handler: () => {
-        console.log("Read");
-    },
-    /*builder: {
+    builder: {
         title: {
-          describe: "Note title",
-          demandOption,
+            describe: "Note title",
+            demandOption: true,
+            type: "string",
         },
-      },*/
+    },
+    handler: (argv) => {
+        const { title } = argv;
+        (0, notes_1.readNote)(title);
+    },
 });
 // List command
 yargs.command({
@@ -62,11 +64,5 @@ yargs.command({
     handler: () => {
         (0, notes_1.listNotes)();
     },
-    /*builder: {
-        title: {
-          describe: "Note title",
-          demandOption,
-        },
-      },*/
 });
 yargs.parse();
