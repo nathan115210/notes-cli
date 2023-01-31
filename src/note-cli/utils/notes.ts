@@ -4,7 +4,9 @@ import * as chalk from "chalk";
 
 const loadNotes = (): Note[] => {
   try {
-    const data: string = fs.readFileSync("notes.json", { encoding: "utf8" });
+    const data: string = fs.readFileSync("notes.json", {
+      encoding: "utf8",
+    });
     return JSON.parse(data) as Note[];
   } catch (err) {
     return [];

@@ -17,6 +17,10 @@
     ]
   },
   "files": [
-    "src/app.ts"
+    /*Entry file of notes-cli*/
+    "src/note-cli/app.ts",
+
+    /*Entry file fo weather-cli*/
+    "src/weather-cli/app.ts"
   ]
 }

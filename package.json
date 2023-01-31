@@ -4,8 +4,8 @@
   "description": "The tool for managing, add, remove, read, notes from note app",
   "main": "dist/app.js",
   "scripts": {
-    "start": "ts-node-dev --respawn src/app.ts",
-    "dev": "nodemon --exec ts-node src/app.ts",
+    "start-note": "ts-node-dev --respawn src/note-cli/app.ts",
+    "dev-note": "nodemon --exec ts-node src/note-cli//app.ts",
     "build": "tsc"
   },
   "author": "Zhao Hongyu",
